@@ -31,4 +31,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+
+try
+{
+    await context.Database.MigrateAsync();
+}
+catch
+{
+	throw;
+}
+
 app.Run();

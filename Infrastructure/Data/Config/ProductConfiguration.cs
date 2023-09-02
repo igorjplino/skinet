@@ -25,7 +25,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.PictureUrl)
             .IsRequired();
 
-        builder.HasOne(p => p.ProdutcBrand)
+        builder.HasOne(p => p.ProductBrand)
             .WithMany()
             .HasForeignKey(p => p.ProductBrandId);
 

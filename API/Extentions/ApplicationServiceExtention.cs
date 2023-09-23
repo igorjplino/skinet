@@ -41,6 +41,14 @@ public static class ApplicationServiceExtention
             };
         });
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", policy =>
+            {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+            });
+        });
+
         return services;
     }
 }

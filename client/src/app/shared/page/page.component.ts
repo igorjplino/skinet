@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class PageComponent {
   @Input() totalCounts?: number;
   @Input() pageSize?: number;
+  @Input() pageNumber?: number;
   
   @Output() pageChanges = new EventEmitter<number>();
 

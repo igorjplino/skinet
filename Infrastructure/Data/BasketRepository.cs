@@ -29,7 +29,7 @@ public class BasketRepository : IBasketRepository
     public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
     {
         string data = JsonSerializer.Serialize(basket);
-        var created = await _database.StringSetAsync(basket.Id, data, TimeSpan.FromMinutes(1));
+        var created = await _database.StringSetAsync(basket.Id, data, TimeSpan.FromDays(1));
 
         if (created)
         {

@@ -106,6 +106,16 @@ public class AccountController : BaseApiController
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
+        var emailRegisted = await CheckEmailExists(registerDto.Email);
+
+        if (emailRegisted.Value)
+        {
+            return new BadRequestObjectResult(new ApiValidationErrorResponse
+            {
+                Errors = new[] { "Email is already registed" }
+            });
+        }
+
         var user = new AppUser
         {
             DisplayName = registerDto.DisplayName,

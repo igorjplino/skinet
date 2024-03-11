@@ -17,17 +17,22 @@ public static class ApplicationServiceExtention
         {
             opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
         });
+        
         services.AddSingleton<IConnectionMultiplexer>(c =>
         {
             var options = ConfigurationOptions.Parse(configuration.GetConnectionString("Redis"));
             return ConnectionMultiplexer.Connect(options);
         });
 
+        services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IOrderService, OrderService>();
+
+        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        services.AddScoped<ITokenService, TokenService>();
+        
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
         services.Configure<ApiBehaviorOptions>(options =>
         {
             options.InvalidModelStateResponseFactory = actionContext =>

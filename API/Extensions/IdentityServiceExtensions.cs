@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace API.Extentions;
+namespace API.Extensions;
 
 public static class IdentityServiceEstentions
 {

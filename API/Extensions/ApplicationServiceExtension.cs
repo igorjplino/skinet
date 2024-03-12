@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
-namespace API.Extentions;
+namespace API.Extensions;
 
-public static class ApplicationServiceExtention
+public static class ApplicationServiceExtension
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection services, IConfiguration configuration)
     {
@@ -27,6 +27,7 @@ public static class ApplicationServiceExtention
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IOrderService, OrderService>();
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IBasketRepository, BasketRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();

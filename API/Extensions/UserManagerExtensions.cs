@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace API.Extentions;
+namespace API.Extensions;
 
-public static class UserManagerExtentions
+public static class UserManagerExtensions
 {
     public static async Task<AppUser> FindUserByClaimsPrincipleWithAddressAsync(
         this UserManager<AppUser> userManager,

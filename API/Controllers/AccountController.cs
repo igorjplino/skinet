@@ -124,16 +124,16 @@ public class AccountController : BaseApiController
 
         var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-        if (!result.Succeeded)
+        if (result.Succeeded)
         {
-            return BadRequest(new ApiResponse(400));
+            return new UserDto
+            {
+                DisplayName = registerDto.DisplayName,
+                Token = _tokenService.CreateToken(user),
+                Email = registerDto.Email
+            };
         }
-
-        return new UserDto
-        {
-            DisplayName = registerDto.DisplayName,
-            Token = _tokenService.CreateToken(user),
-            Email = registerDto.Email
-        };
+        
+        return BadRequest(new ApiResponse(400));
     }
 }

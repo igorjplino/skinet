@@ -37,13 +37,26 @@ public class OrderService : IOrderService
 
         var subtotal = items.Sum(x => x.Price * x.Quantity);
 
-        var order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal);
+        var spec = new OrderByPaymentIntentIdSpecification(basket.PaymentIntentId);
 
-        _uow.Repository<Order>().Add(order);
+        var order = await _uow.Repository<Order>().GetEntityWithSpecAsync(spec);
+
+        if (order is not null)
+        {
+            order.ShipToAddress = shippingAddress;
+            order.DeliveryMethod = deliveryMethod;
+            order.SubTotal = subtotal;
+
+            _uow.Repository<Order>().Update(order);
+        }
+        else
+        {
+            order = new Order(items, buyerEmail, shippingAddress, deliveryMethod, subtotal, basket.PaymentIntentId);
+
+            _uow.Repository<Order>().Add(order);
+        }
 
         await _uow.Complete();
-
-        await _basketRepository.DeleteBasketAsync(basketId);
 
         return order;
     }

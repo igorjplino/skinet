@@ -29,6 +29,7 @@ public class ProductsController : BaseApiController
         _mapper = mapper;
     }
 
+    [Cached(60)]
     [HttpGet]
     public async Task<ActionResult<Pagination<ProductsToReturnDto>>> GetProducts([FromQuery] ProductsSpecParams productsParams)
     {
@@ -49,6 +50,7 @@ public class ProductsController : BaseApiController
             productsDto));
     }
 
+    [Cached(60)]
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductsToReturnDto>> GetProduct(int id)
     {
@@ -62,12 +64,14 @@ public class ProductsController : BaseApiController
         return _mapper.Map<Product, ProductsToReturnDto>(product);
     }
 
+    [Cached(600)]
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyCollection<ProductBrand>>> GetProductBrands()
     {
         return Ok(await _productBrandRepository.ListAllAsync());
     }
 
+    [Cached(600)]
     [HttpGet("types")]
     public async Task<ActionResult<IReadOnlyCollection<ProductType>>> GetProductTypes()
     {

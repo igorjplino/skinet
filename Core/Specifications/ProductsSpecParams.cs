@@ -4,7 +4,7 @@ public class ProductsSpecParams
 {
     private const int MaxPageSize = 50;
     
-     private int _pageSize = 6;
+    private int _pageSize = 6;
     private string _search;
 
     public int PageIndex { get; set; } = 1;

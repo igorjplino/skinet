@@ -8,6 +8,7 @@ The project used from the course TryCatchLearn
   - [Chocolatey](#chocolatey)
   - [NodeJs](#nodeJs)
   - [HTTPS](#https)
+  - [Stripe](#stripe) 
 
 ## Technologies
 Technologies used in this course:
@@ -29,7 +30,7 @@ Technologies used in this course:
 Configurations that I use to configure and run these applications
 
 ### Chocolatey
-The main reason to install Chocolatey it's because NVM is not supported on Windows.  Chocolatey it's a package manager for Windows.
+The main reason to install Chocolatey is because NVM is not supported on Windows.  Chocolatey is a package manager for Windows.
 
 So, nothing better than following the official documentation.
 - [Installing Chocolatey](https://chocolatey.org/install)
@@ -76,3 +77,24 @@ mkcert localhost
 > [!NOTE]
 > It's necessary to execute this process on different machines that need to be configured.
 
+### Stripe
+
+The payment platform that was used in this course and the following configurations are for webhook listening locally.
+
+> [!NOTE]
+> These instructions are based on the official documentation [here](https://docs.stripe.com/stripe-cli) for Windows.
+
+1. [download](https://github.com/stripe/stripe-cli/releases/latest) the latest Stripe CLI.
+2. Extract `stripe.exe` file, save it in a specific directory, and add it to the environment Path
+``` powershell
+$Env:Path += ';C:\Tools\stripe'
+```
+3. Execute the command and you'll be redirected to the website for authentication.
+``` powershell
+stripe login
+```
+4. The next command is for starting the local webhook to listen to events. Different events can be listening separated by a comma.
+``` powershell
+stripe listen -f https://localhost:5001/api/payments/webhook -e payment_intent.succeeded,payment_intent.payment_failed
+```
+5. When the webhook starts, a key will be provided (the key initiates with "whsec_") and then copy/paste into the property "StripeSettings:WhSecret" on the appsettings.json file.

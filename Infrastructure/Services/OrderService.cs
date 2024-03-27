@@ -58,18 +58,6 @@ public class OrderService : IOrderService
 
         await _uow.Complete();
 
-        _uow.Repository<Order>().Add(order);
-
-        await _uow.Complete();
-
-        await _basketRepository.DeleteBasketAsync(basketId);
-
-        _uow.Repository<Order>().Add(order);
-
-        await _uow.Complete();
-
-        await _basketRepository.DeleteBasketAsync(basketId);
-
         return order;
     }
 

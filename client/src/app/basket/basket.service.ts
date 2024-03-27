@@ -111,74 +111,6 @@ export class BasketService {
     localStorage.removeItem("basket_id");
   }
 
-  removeItemFromBasket(id: number, quantity = 1) {
-    const basket = this.getCurrentBasketValue();
-    if (!basket)
-      return;
-
-    const item = basket.items.find(x => x.id === id);
-    
-    if (!item)
-      return;
-
-    item.quantity -= quantity;
-      
-    if (item.quantity <= 0) {
-      basket.items = basket.items.filter(x => x.id !== id);
-    }
-    
-    if (basket.items.length > 0) {
-      this.setBasket(basket);
-    }
-    else {
-      this.deleteBasket(basket);
-    }
-  }
-
-  deleteBasket(basket: Basket) {
-    return this.http.delete(this.baseUrl + "basket?id=" + basket.id).subscribe({
-      next: () => {
-        this.basketSource.next(null);
-        this.basketTotalSource.next(null);
-        localStorage.removeItem("basket_id");
-      }
-    });
-  }
-
-  removeItemFromBasket(id: number, quantity = 1) {
-    const basket = this.getCurrentBasketValue();
-    if (!basket)
-      return;
-
-    const item = basket.items.find(x => x.id === id);
-    
-    if (!item)
-      return;
-
-    item.quantity -= quantity;
-      
-    if (item.quantity <= 0) {
-      basket.items = basket.items.filter(x => x.id !== id);
-    }
-    
-    if (basket.items.length > 0) {
-      this.setBasket(basket);
-    }
-    else {
-      this.deleteBasket(basket);
-    }
-  }
-
-  deleteBasket(basket: Basket) {
-    return this.http.delete(this.baseUrl + "basket?id=" + basket.id).subscribe({
-      next: () => {
-        this.basketSource.next(null);
-        this.basketTotalSource.next(null);
-        localStorage.removeItem("basket_id");
-      }
-    });
-  }
-
   private addOrUpdateItem(items: BasketItem[], itemToAdd: BasketItem, quantity: number): BasketItem[] {
     var item = items.find(x => x.id === itemToAdd.id);
 
@@ -219,14 +151,6 @@ export class BasketService {
     const total = subTotal + basket.shippingPrice;
 
     this.basketTotalSource.next({ shipping: basket.shippingPrice, total, subTotal });
-  }
-
-  private isProduct(item: Product | BasketItem): item is Product {
-    return (item as Product).productBrand !== undefined;
-  }
-
-  private isProduct(item: Product | BasketItem): item is Product {
-    return (item as Product).productBrand !== undefined;
   }
 
   private isProduct(item: Product | BasketItem): item is Product {
